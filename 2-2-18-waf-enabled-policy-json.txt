@@ -1,0 +1,30 @@
+{
+  "properties": {
+    "displayName": "Require WAF to be enabled on Azure Front Door WAF policies",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "description": "Ensures that Web Application Firewall (WAF) is enabled on all Azure Front Door WAF policies.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Front Door"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/frontdoorWebApplicationFirewallPolicies"
+          },
+          {
+            "field": "Microsoft.Network/frontdoorWebApplicationFirewallPolicies/policySettings.enabledState",
+            "notEquals": "Enabled"
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}
